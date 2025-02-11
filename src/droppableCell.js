@@ -1,7 +1,8 @@
 import { useDroppable } from "@dnd-kit/core";
 import { Button } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 
-const DroppableCell = ({ record, dataIndex, handleDrop, handleClear }) => {
+const DroppableCell = ({ record, dataIndex, handleClear }) => {
   const { setNodeRef } = useDroppable({
     id: `${record.id}-${dataIndex}`,
   });
@@ -11,18 +12,19 @@ const DroppableCell = ({ record, dataIndex, handleDrop, handleClear }) => {
       ref={setNodeRef}
       style={{
         padding: "8px",
-        border: "1px solid #ddd",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
       }}
     >
       <span>{record[dataIndex]}</span>
-      {dataIndex === "age" && (
-        <Button size="small" onClick={() => handleClear(record.id, dataIndex)}>
-          关闭
-        </Button>
-      )}
+      {
+        <Button
+          size="small"
+          icon={<CloseOutlined />}
+          onClick={() => handleClear(record.id, dataIndex)}
+        ></Button>
+      }
     </div>
   );
 };

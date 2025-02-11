@@ -1,28 +1,39 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useDraggable } from "@dnd-kit/core";
+import { useRef } from "react";
 
 function DraggableItem({ id, children }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id,
-    });
-
+  const draggIt = useDraggable({
+    id,
+  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } = draggIt;
+  const nodeRef = useRef(null);
   const style = {
-    padding: "8px",
-    border: "1px solid #ddd",
-    marginBottom: "8px",
-    backgroundColor: "white",
-    cursor: "move",
-    transform: transform
-      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-      : undefined,
-    zIndex: isDragging ? 1000 : "auto",
-    position: isDragging ? "absolute" : "relative",
+    // transform: transform
+    //   ? `translate3d(${transform.x}px, ${
+    //       activatorEvent
+    //         ? transform.y
+    //         : transform.y + (over ? size.scrollTop : 0)
+    //     }px, 0)`
+    //   : undefined,
+    backgroundColor: isDragging ? "grey" : "lightblue",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "1px solid #ccc",
+    cursor: "grab",
+    padding: "0 10px",
   };
 
   return (
-    <div ref={setNodeRef} {...listeners} {...attributes} style={style}>
+    <div
+      ref={(node) => {
+        setNodeRef(node);
+        nodeRef.current = node;
+      }}
+      {...listeners}
+      {...attributes}
+      style={style}
+    >
       {children}
     </div>
   );
